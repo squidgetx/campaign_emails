@@ -18,7 +18,7 @@ NOPRINT_TRANS_TABLE = {
 }
 
 if __name__ == "__main__":
-    mb = mailbox.mbox('messages.mbox')
+    mb = mailbox.mbox('mbox/messages.mbox')
     writer = csv.writer(open('emails.csv', 'w', newline=''), delimiter=',')
     writer.writerow(['From', 'Subject', 'Date', 'Body'])
     for message in mb.itervalues():
