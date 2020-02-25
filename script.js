@@ -66,11 +66,11 @@ d3.json('all_emails.json').then((all_emails) => {
     let updateCloud = function(candidate) {
       let fontSizeFunc = d3.scalePow()
         .exponent(0.5)
-        .domain(d3.extent(data[candidate]['data'].slice(0, 400).map(e => e.value)))
+        .domain(d3.extent(data[candidate]['data'].slice(0, 200).map(e => e.value)))
         .range([1, 72])
       let newLayout = d3.layout.cloud()
         .size(layout.size)
-        .words(data[candidate]['data'].slice(0, 400))
+        .words(data[candidate]['data'].slice(0, 200))
         .padding(2)
         .fontSize((d) => fontSizeFunc(d.value))
         .rotate((_word) => 0)
