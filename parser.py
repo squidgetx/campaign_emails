@@ -3,6 +3,7 @@ import mailbox
 import sys
 import re
 import string
+import bs4
 import csv
 
 # Convert an mbox file into a csv (printed to stdout)
@@ -33,17 +34,24 @@ if __name__ == "__main__":
         from_header = dmessage['From']
         subject = dmessage['Subject']
         date = dmessage['Date']
-        payload = [p.decode('utf8').translate(NOPRINT_TRANS_TABLE) for p in payload if p is not None]
-        payload = [cleanhtml(p) for p in payload]
-        # remove punc
-        payload = [s.translate(str.maketrans('', '', string.punctuation)) for s in payload]
-        payload = [' '.join([w.strip() for w in p.split(' ') if len(w.strip()) > 0]) for p in payload]
+        payload = [p.decode('utf8') for p in payload if p is not None]
+
         payload = ' '.join(payload)
+        soup = bs4.BeautifulSoup(payload, 'html.parser')
+        while soup.style is not None:
+            soup.style.decompose()
+        text = soup.get_text().translate(NOPRINT_TRANS_TABLE)
+        # remove punc
+        text = text.translate(str.maketrans('', '', string.punctuation))
+        delchar = ''.join(c for c in map(chr, range(256)) if not c.isalnum())
+
+        text = ' '.join([w.strip().lower().translate(str.maketrans('','',delchar)) for w in text.split(' ') if len(w.strip()) > 0])
+
         output = {
             'from': from_header,
             'subject': subject,
             'date': date,
-            'body': payload,
+            'body': text,
         }
         writer.writerow([output['from'], output['subject'], output['date'], output['body']])
 

@@ -1,5 +1,7 @@
 <html>
   <head>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="d3cloud.js"></script>
     <script src="script.js"></script>
     <link rel="stylesheet" href="style.css">
     <title>
@@ -7,5 +9,16 @@
     </title>
   </head>
   <body>
+    <div id='wrapper'>
+      <div id='header'>
+        <p class='heading'>what are 
+        <select id='candidate-select'></select>
+        campaign emails talking about 
+        </p>
+      </div>
+      <div id='wordcloud-container'></div>
+      <p class='heading' id='word'></p>
+      <div id='graph'></div>
+    </div>
   </body>
 </html>

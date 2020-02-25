@@ -1,3 +1,41 @@
 body: {
   margin: 0
 }
+
+#wrapper: {
+  width: 800;
+  margin: auto;
+  text-align: center;
+}
+
+p, select {
+  font-size: 16pt;
+}
+
+.heading {
+  padding: 1em;
+  text-align: center;
+  font-family: Helvetica, sans-serif;
+}
+
+#header {
+  margin: auto;
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+#wordcloud, #graph {
+  margin: auto;
+  display: block;
+  width: 800px;
+}
+
+.active {
+  font: bold;
+}
+
+.line {
+    fill: none;
+    stroke: #ffab00;
+    stroke-width: 3;
+}
