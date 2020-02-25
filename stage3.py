@@ -46,7 +46,7 @@ if __name__ == "__main__":
     for c in all_candidates:
         all_messages[c] = {'data': [], }
         for key, value in sorted(messages[c].items(), key=lambda item: item[1], reverse=True):
-            if (value > 2 and len(re.sub('[\W_]', '', key)) > 0 and key not in addl_sw and key not in stopwords_nltk):
+            if (value > 2 and len(re.sub('[\W_]', '', key)) > 0 and key not in addl_sw and key not in stopwords_nltk and len(all_messages[c]['data']) < 500):
                 #print("%s: %s" % (key, value))
                 all_messages[c]['data'].append({ 'text': key, 'value': value })
 

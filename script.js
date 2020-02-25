@@ -1,4 +1,5 @@
 d3.json('all_emails.json').then((all_emails) => {
+  console.log(all_emails)
 
   let get_timeseries = function(all_emails, term)  {
     let timeFormat = d3.timeParse("%Y-%m-%d");
@@ -90,6 +91,7 @@ d3.json('all_emails.json').then((all_emails) => {
     let submitFunc = function() {
       candidate = this.value
       updateCloud(candidate)
+      updateGraph(candidate, selectedWord, true)
       d3.select('#candidate-img').attr('src', candidate +'.png')
     }
 
@@ -127,6 +129,7 @@ d3.json('all_emails.json').then((all_emails) => {
 
     updateGraph = function(candidate_, word, anim=false) {
       let dataset = get_timeseries(all_emails[candidate_], word)
+      console.log(dataset)
       // dataset is an array of dates and count
       // most code stolen from https://bl.ocks.org/gordlea/27370d1eea8464b04538e6d8ced39e89
       let xScale = d3.scaleTime()
@@ -153,7 +156,7 @@ d3.json('all_emails.json').then((all_emails) => {
       } else {
         path.attr("d", line(dataset)); // 11. Calls the line generator
       }
-      d3.select('#word').html('occurences of "' + word + '" per day')
+      d3.select('#word').html('occurences of "' + word + '" per week')
     }
 
     updateGraph('trump', 'fake')

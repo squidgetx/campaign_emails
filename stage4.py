@@ -25,22 +25,37 @@ if __name__ == "__main__":
         if (len(candidates) == 0):
             candidates = ['Unknown']
             # ignore these, there are only 26
-        if (row['Body'] is None):
-            pdb.set_trace()
-
         candidate = candidates[0]
         date_str = row['Date'][0:16].strip()
         date_obj = datetime.datetime.strptime(date_str,'%a, %d %b %Y')
         message = {
             'candidate': candidate,
-            'date': str(date_obj.date()),
+            'date': date_obj.date(),
             'body_words': { w: row['Body'].split(' ').count(w) for w in row['Body'].split(' ') if len(w) < 50 and w not in addl_sw and w not in stopwords_nltk}
         }
         if (candidate != 'Unknown'):
             messages[candidate].append(message)
+    # aggregate by week
+    week_messages = {}
+    for c in messages:
+        print(c)
+        current_message = None;
+        week_messages[c] = [];
+        for message in sorted(messages[c], key=lambda message: message['date']):
+            if (current_message == None):
+                current_message = message;
+                continue;
+            if (message['date'] - current_message['date'] < datetime.timedelta(days=4)):
+                # merge together
+                for word in message['body_words']:
+                    current_message['body_words'][word] = current_message['body_words'].get(word, 0) + message['body_words'][word]
+            else:
+                current_message['date'] = str(current_message['date'])
+                week_messages[c].append(current_message)
+                current_message = message;
 
     with open('all_emails.json', 'w') as out:
-        json.dump(messages, out)
+        json.dump(week_messages, out)
 
                 
             
