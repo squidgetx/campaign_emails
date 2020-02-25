@@ -18,6 +18,13 @@ p, select {
   font-family: Helvetica, sans-serif;
 }
 
+#candidate-img {
+  width: 300px;
+  position: absolute;
+  top: 300;
+  left: 100
+}
+
 #header {
   margin: auto;
   text-align: center;

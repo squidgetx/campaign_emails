@@ -8,7 +8,9 @@ d3.json('all_emails.json').then((all_emails) => {
   }
 
   let updateGraph; // scope
+  let selectedWord = 'fake'
   let candidate = 'trump'
+  d3.select('#candidate-img').attr('src', candidate +'.png')
 
   d3.json('emails.json').then((data) => {
     d3.select('#wordcloud-container')
@@ -41,6 +43,8 @@ d3.json('all_emails.json').then((all_emails) => {
         })
         .on('click', (d, i, nodes) => {
           updateGraph(candidate, d.text, true) 
+          selectedWord = d.text
+          d3.select('#g').selectAll('text').style('fill', function(d) { (d.text == selectedWord) ? 'red' : 'black' })
         })
         .transition()
           .duration(1000)
@@ -62,11 +66,11 @@ d3.json('all_emails.json').then((all_emails) => {
     let updateCloud = function(candidate) {
       let fontSizeFunc = d3.scalePow()
         .exponent(0.5)
-        .domain(d3.extent(data[candidate]['data'].slice(0, 500).map(e => e.value)))
+        .domain(d3.extent(data[candidate]['data'].slice(0, 400).map(e => e.value)))
         .range([1, 72])
       let newLayout = d3.layout.cloud()
         .size(layout.size)
-        .words(data[candidate]['data'].slice(0, 500))
+        .words(data[candidate]['data'].slice(0, 400))
         .padding(2)
         .fontSize((d) => fontSizeFunc(d.value))
         .rotate((_word) => 0)
@@ -86,6 +90,7 @@ d3.json('all_emails.json').then((all_emails) => {
     let submitFunc = function() {
       candidate = this.value
       updateCloud(candidate)
+      d3.select('#candidate-img').attr('src', candidate +'.png')
     }
 
     d3.select('#candidate-select')
