@@ -62,7 +62,7 @@ d3.json('all_emails.json').then((all_emails) => {
         .remove();
     }
     
-    let layout = {size: [800, 350]}
+    let layout = {size: [800, 300]}
 
     let updateCloud = function(candidate) {
       let fontSizeFunc = d3.scalePow()
@@ -105,9 +105,9 @@ d3.json('all_emails.json').then((all_emails) => {
       .html((d) => d)
 
     // GRAPH
-    let margin = {top: 50, right: 50, bottom: 50, left: 50}
+    let margin = {top: 0, right: 50, bottom: 50, left: 50}
     , width = 800 - margin.left - margin.right 
-    , height = 400 - margin.top - margin.bottom; 
+    , height = 350 - margin.top - margin.bottom; 
 
     let svg = d3.select("#graph").append("svg")
       .attr('id', 'graph-svg')
